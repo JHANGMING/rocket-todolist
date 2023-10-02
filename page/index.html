@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;800&family=Public+Sans:wght@200;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../dist/output.css">
+  <title>Landing Page</title>
+</head>
+<body>
+  <section class="loader"></section>
+  <section class="landing-pg h-screen ">
+    <div class="landing-color h-screen ">
+      <div class="container">
+        <h1 class="md:pl-30"><a href="#javascript;" class="text-list-fifth text-5xl font-extrabold font-sans">TDL<span class="text-list-seventh text-7xl">.</span></a></h1>
+      <div class="logIn md:container  pt-10 pb-30 ">
+        <div class="flex flex-col items-center ">
+          <h2 class="text-xl md:text-6xl lg:text-7xl font-bold text-center mb-10">Organize it all with ToDoList </h2>
+          <p class="font-sans md:text-xl lg:text-2xl mb-20">Simple tools, Efficient time, Better work.</p>
+          <form class="signinForm flex flex-col items-center">
+            <input type="email" name="email" class="signin-Email signin mb-1 md:w-4/5 lg:w-[293px] h-[52px] py-4 pl-5 rounded text-m text-black" placeholder="Email">
+            <p class=" text-list-fifth mb-5 self-start ml-15" data-msg="email"></p>
+            <input type="password" name="password" class="signin-password signin mb-1 md:w-4/5 lg:w-[293px] h-[52px] py-4 pl-5 rounded text-m text-black" placeholder="Password">
+            <p class=" text-list-fifth mb-5 self-start ml-15" data-msg="password"></p>
+            <div class="flex mt-10">
+            <button type="submit" class="hover:scale-110 md:text-m mr-3 md:mr-10 font-sans font-semibold py-3 w-[150px] md:w-[175px] bg-list-sixth hover:opacity-90 rounded-[30px]">Log In</button>
+            <button type="button" class="hover:scale-110 register-btn md:text-m font-sans fnt-semibold py-3 w-[150px] md:w-[175px] hover:btn-bg rounded-[30px] border-2 ">Register</button>
+            </div>  
+          </form>
+        </div>
+      </div>
+      <div class="register md:container hidden">
+        <div class="max-w-[550px] mx-auto flex flex-col items-center">
+          <h2 class="text-5xl self-end font-semibold mb-2">Register</h2>
+          <form class="signupForm w-full flex flex-col">
+            <div class="register-bg rounded-lg px-5 md:pl-20 pt-10 pb-15 md:mb-10 mb-5">
+              <label for="email" class="text-xl font-extralight">Email</label>
+              <span class="Email text-list-fifth  text-xm ml-3"></span>
+              <input type="email" id="email" name="Email" class="input-bg rounded w-full md:w-120 h-[45px] text-m text-black pl-5 mb-3" placeholder="Email">
+              <label for="name" class="text-xl font-extralight">User name</label>
+              <span class="UserName text-list-fifth text-xm ml-3"></span>
+              <input type="text" id="name" name="UserName" class="input-bg rounded w-full md:w-120 h-[45px] text-m text-black pl-5 mb-3" placeholder="name">
+              <label for="password" class="text-xl font-extralight">Password</label>
+              <span class="Password text-list-fifth text-xm ml-3"></span>
+              <input type="password" id="password" name="Password" class="input-bg rounded w-full md:w-120 h-[45px] text-m text-black pl-5 mb-3" placeholder=" Password">
+              <label for="con-password" class="text-xl font-extralight">Confirm Password</label>
+              <span class="ConfirmPassword text-list-fifth text-xm ml-3"></span>
+              <input type="password" id="con-password" name="ConfirmPassword" class="input-bg rounded w-full md:w-120 h-[45px] text-m text-black pl-5 mb-3" placeholder="password">
+            </div>
+            <div class="flex justify-center">
+              <button type="submit" class="hover:scale-110 logIn-btn md:text-m mr-10 font-sans font-semibold py-3 md:px-10 px-5 bg-list-sixth hover:opacity-90 rounded-[30px]">Create Account</button>
+              <button type="button" class="hover:scale-110 landingpageBtn md:text-m font-sans fnt-semibold py-3  md:w-[200px] w-[150px] hover:btn-bg rounded-[30px] border-2 ">Log In</button>
+            </div>
+            
+          </form>
+          
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.0/axios.min.js"></script>
+  <script type="module" src="../js/all.js"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;800&family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../dist/output.css">
+  <title>TodoList</title>
+</head>
+<body>
+  <section class="loader"></section>
+  <section class="todoRwd-bg lg:todo-bg relative">
+    <div class="container todo-color">
+      <nav class="flex md:justify-between items-center pt-10 md:px-30 mb-10">
+        <h1 class="hidden md:block"><a href="" class="backBtn text-list-fifth text-5xl font-extrabold font-sans hover:scale-110">TDL<span class="text-list-seventh text-7xl">.</span></a></h1>
+        <div class="flex justify-between w-full md:w-auto">
+          <div class="flex items-center mr-5 md:mr-10">
+            <img src="../images/NJ9ZcpB.jpeg" alt="todo-photo" class="w-[50px] h-[50px] rounded-[100%] object-cover mr-3">
+            <h3 class="todoName text-m">Brown Liu</h3>
+          </div>
+          <button class="signout-btn w-[110px] rounded-[30px] hover:opacity-90 hover:scale-110 py-4 ">Log out</button>
+        </div>
+      </nav>
+    <div class="flex flex-col items-center mb-10 lg:items-end lg:pr-30">
+      <div class="relative w-full md:w-[512px] mb-10">
+        <input type="text" class="todoinput w-full h-17 py-4 pl-5 rounded text-m text-black bg-white/[.95]" placeholder="Please enter your task...">
+        <i class="addBtn fa-solid fa-circle-plus text-4xl text-list-night top-[20%] right-4 absolute hover:scale-110"></i>
+      </div>
+      <div class="noTask w-full md:w-[512px] rounded-lg text-center text-xl py-62 ">No task for now</div>
+      <ul class="todoAllList w-full md:w-[512px] rounded-lg bg-white/[.95] hidden">
+        <li class="mb-3">
+          <ul class="todoTitle flex text-xl justify-evenly text-center text-list-tenth border-b-2 border-list-eleventh/[.3] pt-5">
+            <li class="active w-1/4 cursor-pointer px-4 pb-3 hover:scale-110" data-status="all">All</li>
+            <li class="w-1/4 cursor-pointer px-4 pb-3 hover:scale-110" data-status="isCompleted">To do</li>
+            <li class="w-1/4 cursor-pointer px-4 pb-3 hover:scale-110" data-status="completed">Done</li>
+          </ul>
+        </li>
+        <li class="text-list-tenth/[.8] text-center mb-6">You have <span class="todoNum">4</span> tasks to do</li>
+        <li>
+          <ul class="todolist ">
+            <!-- <li class="flex  text-list-tenth/[.8]  px-8 pb-3 mb-4">
+              <div class="flex justify-between items-center border-b-2 border-list-eleventh/[.3] w-full pb-4">
+                <div class="flex w-full ">
+                  <input type="checkbox" id="item2" class="custom-checkbox mr-5 w-8">
+                  <label for="item2" class="text-m flex-1 text-list-tenth/[.2] font-bold">Ask  meal</label>
+                </div>
+              <div class="flex">
+                <a href=""><i class="fa-solid fa-pencil text-xl mr-4"></i></a>
+                <a href=""><i class="fa-regular fa-trash-can text-xl"></i></a>
+              </div>
+              </div>
+            </li>
+            <li class="flex  text-list-tenth/[.8]  px-8 pb-3 mb-4">
+              <div class="flex justify-between items-center border-b-2 border-list-eleventh/[.3] w-full pb-4">
+                <input type="text" class="py-1 pl-5 rounded text-m text-black bg-white/[.95]">
+                <div class="flex" >
+                  <i class="fa-solid fa-check text-xl mr-5"></i>
+                  <i class="fa-solid fa-xmark text-xl"></i>
+                </div>
+              </div>
+            </li> -->
+          </ul>
+        </li>
+        <li class="text-center mb-12"><button type="button" class="deleteAll bg-list-tenth/[.8] rounded-lg hover:scale-110 px-4 py-2">Remove all done</button></li>
+      </ul>
+    </div>
+    </div>  
+  </section>
+  <script src="https://kit.fontawesome.com/dbac137724.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.0/axios.min.js"></script>
+  <script type="module" src="../js/todo.js"></script>
+</body>
+</html>
+
+
