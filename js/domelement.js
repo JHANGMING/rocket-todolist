@@ -18,7 +18,7 @@ export const logInMeau=document.querySelector(".logIn")
 export const registerMeau=document.querySelector(".register")
 export const landingpageBtn=document.querySelector(".landingpageBtn")
 
-//todolist
+//todolist頁面
 export const todolist=document.querySelector(".todolist")
 export const todoinput=document.querySelector(".todoinput")
 export const addBtn=document.querySelector(".addBtn")
