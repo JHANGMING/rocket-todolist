@@ -1,5 +1,5 @@
 //防抖機制
-export function debounce(callback,time=800){
+export function debounce(callback,time=500){
 	let timer;
 	return (...args)=>{
 		clearTimeout(timer)

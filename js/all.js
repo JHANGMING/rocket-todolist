@@ -1,5 +1,5 @@
 import {apiUsersSignUp,apiUsersSignIn} from "../js/api.js"; 
-import {signinEmail,signinpassword,signupForm,email,name,password,conPassword,inputs,signininputs,signinForm,registerBtnHandler,messages,registerBtn,signInBtnHandler,landingpageBtn}  from "../js/domelement.js";
+import {signinEmail,signinpassword,signupForm,email,name,password,conPassword,inputs,signininputs,signinForm,registerBtnHandler,messages,registerBtn,signInBtnHandler,landingpageBtn,pssswordEyeClose,pssswordEyeOpen,pssswordEyehandler}  from "../js/domelement.js";
 import {constraints,singinConstraints} from "../js/validate.js"; 
 import {Toast} from "../js/SweetAlert2.js";
 import {disabledBtn,loaded} from "../js/utilsFunction.js";
@@ -33,8 +33,9 @@ const signup=async(data,target)=>{
 
 //登入 api
 const signin=async(data,target)=>{
+  disabledBtn(target) 
   try{
-    disabledBtn(target)  //按鈕打開
+     //按鈕打開
     const res=await apiUsersSignIn(data)
     const {token}=res.data
     const tomorrow = new Date();
@@ -48,7 +49,7 @@ const signin=async(data,target)=>{
         showConfirmButton: false,
         timer: 2000,
     });
-    disabledBtn(target) //按鈕鎖住 1.5秒
+    
     setTimeout(()=>{
       location.href="./todo.html"
     },1000)
@@ -57,10 +58,11 @@ const signin=async(data,target)=>{
     Swal.fire({
       icon: 'error',
       title: '哎唷！登入失敗',
-      text: `${err.message}`,
+      text: `${err?.response.data.message}`,
       showConfirmButton: true,
   });
   }
+  disabledBtn(target) //按鈕鎖住 1.5秒
 }
 
 //註冊表單監聽
@@ -154,9 +156,11 @@ function showErrors(errors) {
     item.textContent = errors[item.dataset.msg];
   });
 }
-
+console.log(pssswordEyeClose)
 registerBtn.addEventListener("click",signInBtnHandler)//登入轉註冊畫面監聽
 landingpageBtn.addEventListener("click",registerBtnHandler)//註冊轉登入畫面監聽
+pssswordEyeClose?.addEventListener("click",pssswordEyehandler) //psssword閉眼模式
+pssswordEyeOpen?.addEventListener("click",pssswordEyehandler) //psssword顯示模式
 window.addEventListener('load', loaded);//新增loading監聽
 
 

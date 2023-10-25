@@ -1,10 +1,13 @@
 import {apiUsersCheckout,apiUsersSignOut,apiPostTodos,apiGetTodos,apiPatchTodos,apiDeleteTodos,apiPutTodos,todoBase} from "../js/api.js"; 
 import {Toast} from "../js/SweetAlert2.js";
 import {debounce,checkboxDisabled,loaded} from "../js/utilsFunction.js";
-import {todolist,todoinput,addBtn,todoTitle,deleteAllbtn,noTask,todoAllList,todoName,signoutBtn,backBtn}  from "../js/domelement.js";
+import {todolist,todoinput,addBtn,todoTitle,deleteAllbtn,noTask,todoAllList,todoName,signoutBtn,backBtn,paginationPage,li}  from "../js/domelement.js";
 let data=[];//todo資料暫存區
 let editData=[];//新增編輯資料暫存區
 let todostatus="all"; //todo頁面nav狀態預設 "all"
+let length="";//todo資料總長度
+const todoPage = 4; //todo頁面任務為4個一組
+let currentPage = 0;//目前頁面
 
 //api function---------------------
 
@@ -17,21 +20,21 @@ const checkout=async(headers)=>{
       icon: 'success',
       title: `Welcome!!  ${res.data.nickname}`
       })
+      return (res.data.status)
     }catch(err){
       Swal.fire({
         icon: 'error',
         title: '哎唷！登入失敗',
-        text: `${err.message}`,
+        text: `${err?.response.data.message}`,
         showConfirmButton: true,
     });
+    return (err.response.data.status)
   }
 };
-
 //登出 api
 const signOut=debounce(async()=>{
     try{
       const res = await apiUsersSignOut()
-      console.log(res)
       document.cookie = "token=; expires=;";
       setTimeout(()=>{
         location.href="./index.html"
@@ -48,7 +51,7 @@ const signOut=debounce(async()=>{
       Swal.fire({
         icon: 'error',
         title: '登出失敗，請再檢查看看',
-        text: `${err.message}`,
+        text: `${err?.response.data.message}`,
         showConfirmButton: true,
     });
   }
@@ -59,11 +62,12 @@ const getTodo=async()=>{
     try{
       const res=await apiGetTodos()
       data=res.data.data
+      length=gettodoLength()
       uptodoList()
     }catch(err){
       Toast.fire({
         icon: 'error',
-        title: `${err.message}!`
+        title: `${err}!`
       })
   }
 };
@@ -78,10 +82,9 @@ const addTodo=debounce(async(data)=>{
         title: `加入代辦事項:${res.data.newTodo.content} 成功！`
       })
     }catch(err){
-      console.log(err)
       Toast.fire({
         icon: 'error',
-        title: `${err.message}!`
+        title: `${err}!`
       })
   }
 });
@@ -98,7 +101,7 @@ const toggleTodo=debounce(async(id)=>{
     }catch(err){
       Toast.fire({
         icon: 'error',
-        title: `${err.message}!`
+        title: `${err}!`
       })
   }
 });
@@ -115,14 +118,14 @@ const deleteTodos=debounce(async(id)=>{
     }catch(err){
       Toast.fire({
         icon: 'error',
-        title: `${err.message}!`
+        title: `${err}!`
       })
   }
 });
 
 //刪除已完成項目 api
 const deleteAllTodos=debounce((data)=>{
-    data.map(async(item)=>{
+    deleteAllbtnHandler().map(async(item)=>{
       try{
       const res=await apiDeleteTodos(item.id)
       Toast.fire({
@@ -132,7 +135,7 @@ const deleteAllTodos=debounce((data)=>{
     }catch(err){
       Toast.fire({
         icon: 'error',
-        title: `${err.message}!`
+        title: `${err?.response.data.message}!`
       })
       }
     })
@@ -151,14 +154,14 @@ const putTodos=debounce(async(id, data)=>{
     }catch(err){
       Toast.fire({
         icon: 'error',
-        title: `${err.message}!`
+        title: `${err?.response.data.message}!`
       })
   }
 });
 
 //api function---------------------end
 
-//初始化事件
+//初始化事件 判斷是否有cookie或是checkout是否成功
 init()
 function init(){
   //讀取cookie
@@ -166,23 +169,25 @@ function init(){
     .split("; ")
     .find((row) => row.startsWith("token="))
     ?.split("=")[1];
-  if(!cookieValue){
-    setTimeout(()=>{
-      location.href="./index.html"
-    },1500)
-    Swal.fire({
-          title: "驗證失敗，請先登入",
-          text: "稍後導至登入頁",
-          icon: "error",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-  }else{
-    //預設axios的表頭
-    todoBase.defaults.headers.common["Authorization"] = cookieValue;
     checkout({headers: { Authorization: cookieValue }})
-    getTodo()
-  }
+      .then(res=>{
+        if(!cookieValue || !res){
+        setTimeout(()=>{
+          location.href="./index.html"
+        },1500)
+        Swal.fire({
+              title: "驗證失敗，請先登入",
+              text: "稍後導至登入頁",
+              icon: "error",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+        }else{
+          //預設axios的表頭
+          todoBase.defaults.headers.common["Authorization"] = cookieValue;
+          getTodo()
+        }
+    })
 };
 
 //新增項目事件
@@ -195,11 +200,13 @@ function addBtnHandler(e){
 
 //渲染畫面事件
 function render(data) {
-  //判斷待完成或已完成沒有事項時，顯示文字
+  //判斷待完成或已完成沒有事項時，顯示沒有任務
   if(data.length===0){
-    todolist.innerHTML=`<li class="px-8 mb-4 text-list-tenth/[.8] text-m font-bold text-center">No task for here!!!</li>`
+    todolist.innerHTML=`<li class="px-8 mb-4  text-list-tenth/[.8] text-m text-center">No task for here</li>`
   }else{
+    let taskNum=`<li class="text-list-tenth/[.8] text-center mb-3">You have <span class="todoNum">${length}</span> tasks to do</li>`
     const html = data.map((item, index) => {
+      //判斷點擊編輯鈕，編輯資料暫存區有todo時，改成顯示input
       const isEditing = editData.length > 0 && editData[0].id === item.id;
       if (isEditing) {
         return `
@@ -230,18 +237,18 @@ function render(data) {
         `;
       }
     }).join("");
-    todolist.innerHTML = html;
+    todolist.innerHTML = taskNum+html;
   }
 };
 
-//todoForm頁面事件 1.切換checkbox狀態 2.刪除 3.編輯
+//todoForm頁面事件 1.切換checkbox狀態 2.刪除 3.編輯edit
 function todoFormHandler(e){
   if(e.target.className.includes("checkbox")||e.target.matches('label')){ //切換checkbox狀態
     toggleTodo(e.target.dataset.index)
     checkboxDisabled()//防止一直連續按切換狀態
   }else if(e.target.className.includes("deleteBtn")){ //刪除
     deleteTodos(e.target.dataset.id)
-  }else if(e.target.className.includes("editBtn")){  //編輯
+  }else if(e.target.className.includes("editBtn")){  //編輯edit
     let value=e.target.parentElement.previousElementSibling.lastElementChild.textContent
     let id=e.target.dataset.id
     editData.push({value,id})
@@ -251,7 +258,7 @@ function todoFormHandler(e){
   }
 };
 
-//編輯todo事件
+//編輯edit todo事件
 function edit(id){
   const editinput=document.querySelector(".editinput")
   const check=document.querySelector(".check")
@@ -270,15 +277,12 @@ function edit(id){
 function toggleHandler(e){
   if (!e.target.matches('li')) return;
   todostatus=e.target.dataset.status
-  const li=document.querySelectorAll(".todoTitle li")
-  li.forEach((item)=>{
-    item.classList.remove("active")
-  })
+  li.forEach((item)=>item.classList.remove("active"))
   e.target.classList.add("active")
   uptodoList()
 }
 
-//更新畫面事件
+//更新畫面事件，判斷todo裡面有沒有資料
 function uptodoList(){
   if(data.length===0){
     noTask.classList.remove("hidden")
@@ -286,13 +290,11 @@ function uptodoList(){
   }else{
     noTask.classList.add("hidden")
     todoAllList.classList.remove("hidden")
-    upNewData()
-    document.querySelector(".todoNum").textContent=data.filter((item)=>item.status===false).length;
+    dataFilter(showData)
   }
 }
-
-//更新資料事件
-function upNewData(){
+//資料篩選事件，判斷現在頁面在全部，待完成，已完成
+function dataFilter(fn){
   const newdata=data.filter((item)=>{
       if(todostatus==="isCompleted"){
         return !item.status
@@ -302,21 +304,53 @@ function upNewData(){
         return item
       }
     })
-  render(newdata)
+  fn(newdata)
 }
 
+//判斷todo資料長度
+function showData(data){
+  let pageNum=Math.ceil(data.length/4)
+  if(pageNum>=2){
+    renderpaginator(data,pageNum)
+    render(getPage(data,currentPage))
+  }else {
+    render(data)
+    paginationPage.innerHTML = "";
+  }
+}
+
+//建立分頁meau＋監聽
+function renderpaginator(data,amount) {
+  let html = `
+      <a href="##" class="circle mr-2 show" data-page="0"></a>
+      ${[...Array(amount-1).keys()].map((item=>{return`<a href="##" class="circle mr-2" data-page="${item+1}"></a>`})).join("")}`;
+  paginationPage.innerHTML = html;
+  // 分頁點擊
+  paginationPage.addEventListener('click',(e)=>{
+    if (e.target.tagName !== 'A') return
+    const link=document.querySelectorAll(".paginationPage a")
+    link.forEach((item)=>item.classList.remove("show"))
+    e.target.classList.add("show")
+    const page = Number(e.target.dataset.page)
+    currentPage = page
+    render(getPage(data,currentPage))
+  })
+}
+
+//根據頁數長度去取得資料
+function getPage(data,page) {
+  const startIndex = page * todoPage
+  return data.slice(startIndex, startIndex + todoPage)
+}
 
 //刪除已完成事件
 function deleteAllbtnHandler(){
-  data=data.filter((item)=>item.status)
-  deleteAllTodos(data)
+  return data.filter((item)=>item.status)
 };
 
-//新增鍵盤enter點擊事件
-function keyHandler(e){
-  if(e.keyCode===13){
-    addBtnHandler()
-  }
+//顯示待完成todo資料長度
+function gettodoLength(){
+  return data.filter((item)=>!item.status).length
 }
 
 //回到首頁
@@ -339,8 +373,8 @@ function transformToindex(e){
 addBtn.addEventListener("click",addBtnHandler); //新增按鈕監聽
 todolist.addEventListener("click",todoFormHandler); //todoForm監聽
 todoTitle.addEventListener("click",toggleHandler); //todo表單nav頁面切換監聽
-deleteAllbtn.addEventListener("click",deleteAllbtnHandler); //刪除已完成監聽
-todoinput.addEventListener("keydown",keyHandler); //鍵盤enter點擊事件監聽
+deleteAllbtn.addEventListener("click",deleteAllTodos); //刪除已完成監聽
+todoinput.addEventListener("keydown",(e) => e.keyCode===13 && addBtnHandler()); //鍵盤enter點擊事件監聽
 backBtn.addEventListener("click",transformToindex);//返回首頁監聽
 signoutBtn.addEventListener("click",signOut);//登出監聽
 window.addEventListener('load', loaded);//新增loading監聽

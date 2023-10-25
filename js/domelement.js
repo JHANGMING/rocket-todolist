@@ -17,6 +17,8 @@ export const inputs = document.querySelectorAll("input[type=text],input[type=pas
 export const logInMeau=document.querySelector(".logIn")
 export const registerMeau=document.querySelector(".register")
 export const landingpageBtn=document.querySelector(".landingpageBtn")
+export const pssswordEyeClose=document.querySelector(".pssswordEyeClose")
+export const pssswordEyeOpen=document.querySelector(".pssswordEyeOpen")
 
 //todolist頁面
 export const todolist=document.querySelector(".todolist")
@@ -29,6 +31,8 @@ export const todoAllList=document.querySelector(".todoAllList")
 export const todoName=document.querySelector(".todoName")
 export const signoutBtn=document.querySelector(".signout-btn")
 export const backBtn=document.querySelector(".backBtn")
+export const paginationPage=document.querySelector(".paginationPage")
+export const li=document.querySelectorAll(".todoTitle li")
 
 //註冊成功轉登入畫面
 export const registerBtnHandler=()=>{
@@ -40,4 +44,18 @@ export const registerBtnHandler=()=>{
 export const signInBtnHandler=()=>{
   logInMeau.classList.add("hidden")
   registerMeau.classList.remove("hidden")
+}
+
+//登入 psssword顯示
+export const pssswordEyehandler=(e)=>{
+  e.preventDefault()
+  if (signinpassword.type === 'password') {
+    signinpassword.type = 'text';
+    pssswordEyeClose.classList.add("hidden")
+    pssswordEyeOpen.classList.remove("hidden")
+  } else {
+    signinpassword.type = 'password';
+    pssswordEyeClose.classList.remove("hidden")
+    pssswordEyeOpen.classList.add("hidden")
+  }
 }

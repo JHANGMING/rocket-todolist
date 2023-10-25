@@ -6,10 +6,6 @@
   html {
     font-family: 'Public Sans', sans-serif;
     color: #fff;
-
-  }
-  .container {
-    max-width: 940px;
   }
   a {
     display: block;
@@ -23,21 +19,13 @@
 }
 
 @layer components {
-  .inputDesign {
-    @apply h-[38px] bg-travel-first border-b border-travel text-travel-second px-2.15;
+  .inputSignIn {
+    @apply bg-white/[.63] rounded w-full md:w-120 h-[45px] tracking-wider text-m text-black pl-5 mb-3;
   }
-  .ticketCardRegion{
-    @apply bg-travel-fifth text-white py-1.75 w-20 text-center absolute top-[-13px];
+  .errorSignIn{
+    @apply text-list-fifth text-xm ml-3;
   }
-  .ticketCardRank{
-    @apply bg-travel-third w-[39px] py-1.25 text-white text-center absolute bottom-[-16px];
-  }
-  .ticketCardName{
-    @apply text-2xl font-bold;
-  }
-  .delete{
-    @apply absolute top-[-13px] right-[-13px] text-4xl bg-white;
-  }
+
 }
 
 @layer utilities {
@@ -50,15 +38,7 @@
     background: rgba(111,121,134,.35);
     backdrop-filter: blur(2px);
   }
-  .register-bg{
-    background: rgba(0,0,0,.30);
-  }
-  .input-bg{
-    background: rgba(255,255,255,.63);
-  }
-  .btn-bg{
-    background: rgba(255,255,255,.10);
-  }
+
   .todo-bg{
   width: 100%;
   height: 100vh;
@@ -68,15 +48,11 @@
   background-position: left;
   }
 
-  .todo-color{
-    background: rgba(255,255,255,.35);
-    backdrop-filter: blur(3px);
-    height: 100vh;
-  }
+
   .todoRwd-bg{
     width: 100%;
     height: 100vh;
-    background-image:url("https://images.unsplash.com/photo-1518773553398-650c184e0bb3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2670&q=80");
+    background-image:url("https://images.unsplash.com/photo-1570649236495-42fa5fe5c48b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w1MDQzNjB8MHwxfGFsbHx8fHx8fHx8fDE2OTYyMzY3OTN8&ixlib=rb-4.0.3&q=85");
     background-size:cover;
     background-repeat: no-repeat;
     
@@ -84,12 +60,7 @@
   .signout-btn{
     background: rgba(217,217,217,.25);
   }
-  .addBtn{
-    cursor: pointer;
-  }
-  .noTask{
-    background: rgba(255,255,255,.5);
-  }
+
   .active{
     border-bottom: 3px solid rgba(70,34,9,.8);
   }
@@ -111,7 +82,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    font-size: 33px;
+    font-size: 40px;
     width: 20px;
     height: 20px;
     color: #462209;
@@ -155,5 +126,14 @@
   }
   .loaded .loader {
       display: none;
+  }
+  .circle{
+    background: rgba(105,76,56,.3);
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+  }
+  .show{
+    background: rgba(105,76,56,.7);
   }
 }
