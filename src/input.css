@@ -32,13 +32,11 @@
   .landing-pg {
     background:url("https://images.unsplash.com/photo-1589987607627-616cac5c2c5a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2670&q=80&fbclid=IwAR3lvPv7KpZO9CPbjtvrdV61N7txXEfMwhxpU5BZ1a9hfV_YrtyuFS24u04");
     background-size:cover;
-    
   }
   .landing-color{
     background: rgba(111,121,134,.35);
     backdrop-filter: blur(2px);
   }
-
   .todo-bg{
   width: 100%;
   height: 100vh;
@@ -47,7 +45,6 @@
   background-repeat: no-repeat;
   background-position: left;
   }
-
   .todoRwd-bg{
     width: 100%;
     height: 100vh;
